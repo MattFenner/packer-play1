@@ -1,0 +1,36 @@
+{
+    "variables": {
+        "region": "us-east-1"
+    },
+    "builders": [
+        {
+            "type": "amazon-ebs",
+            "region": "{{ user `region` }}",
+            "instance_type": "t2.micro",
+            "source_ami_filter": {
+                "filters": {
+                    "virtualization-type": "hvm",
+                    "name": "*Windows_Server-2012-R2*English-64Bit-Base*",
+                    "root-device-type": "ebs"
+                },
+                "most_recent": true,
+                "owners": "amazon"
+            },
+            "ami_name": "windows-base {{timestamp}}",
+            "user_data_file": "./scripts/bootstrap_winrm.ps1",
+            "communicator": "winrm",
+            "winrm_username": "Administrator",
+            "winrm_password": "SuperS3cr3t!"
+        }
+    ],
+    "provisioners": [
+        {
+            "script": "./scripts/install_chocolatey.ps1",
+            "type": "powershell"
+        },
+        {
+            "script": "./scripts/install_chef.ps1",
+            "type": "powershell"
+        }
+    ]
+}
