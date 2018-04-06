@@ -1,0 +1,41 @@
+{
+    "variables": {
+        "aws-region": "us-east-1"
+    },
+    "builders": [
+        {
+            "type": "virtualbox-iso",
+            "iso_url": "K:\\en_windows_10_enterprise_x64_dvd_6851151.iso",
+            "iso_checksum_type": "none",
+            "guest_os_type": "Windows10_64",
+            "ssh_username": "temp",
+            "ssh_password": "temp",
+            "ssh_wait_timeout": "2h",
+            "headless": false,
+            "boot_wait": "1m",
+            "boot_command": "<enter>",
+            "floppy_files" : [
+                "./Autounattend.xml",
+                "./scripts/fixnetwork.ps1",
+                "./scripts/microsoft-updates.bat",
+                "./scripts/win-updates.ps1",
+                "./scripts/openssh.ps1"
+            ],
+            "disk_size": "61440",
+            "vboxmanage": [
+              [
+                "modifyvm",
+                "{{.Name}}",
+                "--memory",
+                "1024"
+              ],
+              [
+                "modifyvm",
+                "{{.Name}}",
+                "--cpus",
+                "2"
+              ]
+            ]
+        }
+    ]
+}

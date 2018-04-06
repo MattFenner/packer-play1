@@ -1,1 +1,2 @@
-windows_base/*.box
+*.box
+*.vdi
